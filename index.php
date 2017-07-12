@@ -66,6 +66,7 @@ $data = json_decode( $response);
               $profile_pic = str_replace("_normal","_bigger",$statuses->user->profile_image_url);
               echo '<div class="profile-pic"><img src="'.$profile_pic.'"></div>';
               echo '<div class="profile-info">';
+              date_default_timezone_set('America/New_York');
               echo '<div class="timestamp">'.date("F jS, Y  g:ia",strtotime($statuses->created_at)).'</div>';
               echo '<div class="tweet-text">';
               if(preg_match($reg_exUrl, $text, $url)) {

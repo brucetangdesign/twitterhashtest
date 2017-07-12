@@ -20,6 +20,6 @@ $(document).ready(function(){
     }
     $curTweet = $($tweetList.children()[curTweetNum]);
     $curTweet.removeClass("hidden");
-    TweenMax.from($curTweet,1.3,{top: $curTweet.offset().top+$curTweet.height() + 50, opacity: 0,  ease: Power3.easeOut});//, onComplete:killSlide});
+    TweenMax.from($curTweet,1.3,{top: $curTweet.offset().top+$curTweet.height() + 50, opacity: 0,  ease: Power3.easeOut, onComplete:killSlide});
   }
 });
