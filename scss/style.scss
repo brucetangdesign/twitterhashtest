@@ -50,6 +50,13 @@
        url('fonts/SourceSansPro-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
 }
 
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-weight: 800;
+  src: url('fonts/SourceSansPro-Bold.WOFF') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/SourceSansPro-Bold.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
 html, body{
   width: 100%;
   height: 100%;
@@ -71,7 +78,7 @@ a{
 
 ul#tweet-list{
   @include prefixr(display, flex);
-  @include prefixr(align-content, center);
+  @include prefixr(align-items, center);
   @include prefixr(justify-content, center);
   position: relative;
   list-style-type: none;
@@ -142,5 +149,35 @@ li{
   @include breakpoint(xs){
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+}
+
+.button-container{
+  width: 100%;
+  height: 100%;
+  @include prefixr(display, flex);
+  @include prefixr(align-items, center);
+  @include prefixr(justify-content, center);
+
+  a{
+    color: #ffffff;
+    text-decoration: none;
+  }
+}
+
+button{
+  color: #ffffff;
+  font-weight: 800;
+  text-transform: uppercase;
+  background-color: #75d0ea;
+  border-radius: 5px;
+  padding: 15px;
+  cursor: pointer;
+
+  &:first-child{
+    margin-right: 5px;
+  }
+  &:last-child{
+    margin-left: 5px;
   }
 }

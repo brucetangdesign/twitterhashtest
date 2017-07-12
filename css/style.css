@@ -1,6 +1,10 @@
 @font-face {
   font-family: 'Source Sans Pro';
   src: url("fonts/SourceSansPro-Regular.WOFF") format("woff"), url("fonts/SourceSansPro-Regular.ttf") format("truetype"); }
+@font-face {
+  font-family: 'Source Sans Pro';
+  font-weight: 800;
+  src: url("fonts/SourceSansPro-Bold.WOFF") format("woff"), url("fonts/SourceSansPro-Bold.ttf") format("truetype"); }
 html, body {
   width: 100%;
   height: 100%;
@@ -26,11 +30,11 @@ ul#tweet-list {
   display: -ms-flex;
   display: -o-flex;
   display: flex;
-  -webkit-align-content: center;
-  -moz-align-content: center;
-  -ms-align-content: center;
-  -o-align-content: center;
-  align-content: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
   -webkit-justify-content: center;
   -moz-justify-content: center;
   -ms-justify-content: center;
@@ -107,5 +111,44 @@ li {
     #main {
       padding-left: 1rem;
       padding-right: 1rem; } }
+
+.button-container {
+  width: 100%;
+  height: 100%;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: -o-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  -o-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center; }
+  .button-container a {
+    color: #ffffff;
+    text-decoration: none; }
+
+button {
+  color: #ffffff;
+  font-weight: 800;
+  text-transform: uppercase;
+  background-color: #75d0ea;
+  border-radius: 5px;
+  padding: 15px;
+  cursor: pointer; }
+  button:first-child {
+    margin-right: 5px; }
+  button:last-child {
+    margin-left: 5px; }
 
 /*# sourceMappingURL=style.css.map */

@@ -30,7 +30,7 @@ echo $twitter->buildOauth($url, $requestMethod)
 /** Perform a GET request and echo the response **/
 /** Note: Set the GET field BEFORE calling buildOauth(); **/
 $url = 'https://api.twitter.com/1.1/search/tweets.json';
-$getfield = '?q=#mountains&result_type=recent';
+$getfield = '?q=#mountains&result_type=recent&tweet_mode=extended';
 $requestMethod = 'GET';
 
 
@@ -40,6 +40,21 @@ $response = $twitter->setGetfield($getfield)
              ->performRequest();
 
 $data = json_decode( $response);
+
+function linkify_tweet($tweet) {
+
+  //Convert urls to <a> links
+  $tweet = preg_replace("/([\w]+\:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/", "<a target=\"_blank\" href=\"$1\">$1</a>", $tweet);
+
+  //Convert hashtags to twitter searches in <a> links
+  $tweet = preg_replace("/#([A-Za-z0-9\/\.\_]*)/", "<a target=\"_blank\" href=\"http://twitter.com/search?q=$1\">#$1</a>", $tweet);
+
+  //Convert attags to twitter profiles in <a> links
+  $tweet = preg_replace("/@([A-Za-z0-9\/\.\_]*)/", "<a target=\"_blank\" href=\"http://www.twitter.com/$1\">@$1</a>", $tweet);
+
+  return $tweet;
+
+}
 
 ?>
 <html lang="en-us">
@@ -59,7 +74,7 @@ $data = json_decode( $response);
           // Cycle through the array
           foreach ($data->statuses as $idx => $statuses) {
               // Output an li
-              $text = $statuses->text;
+              $text = $statuses->full_text;
               //$url = '@(http)?(s)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
               $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
               echo '<li class="hidden">';
@@ -69,17 +84,18 @@ $data = json_decode( $response);
               date_default_timezone_set('America/New_York');
               echo '<div class="timestamp">'.date("F jS, Y  g:ia",strtotime($statuses->created_at)).'</div>';
               echo '<div class="tweet-text">';
-              if(preg_match($reg_exUrl, $text, $url)) {
+              echo linkify_tweet($text);
+              /*if(preg_match($reg_exUrl, $text, $url)) {
                      // make the urls hyper links
-                    echo preg_replace($reg_exUrl, '<a href="'.$url[0].'" rel="nofollow">'.$url[0].'</a>', $text);
+                    echo preg_replace($reg_exUrl, '<a href="'.$url[0].'" rel="nofollow" target="_blank">'.$url[0].'</a>', $text);
 
               } else {
                      // if no urls in the text just return the text
                      echo $text;
 
-              }
+              }*/
               echo '</div>';
-              echo '<a class="username" href="http://twitter.com/'.$statuses->user->screen_name.'">@'.$statuses->user->screen_name.'</a>';
+              echo '<a class="username" href="http://twitter.com/'.$statuses->user->screen_name.'" target="_blank">@'.$statuses->user->screen_name.'</a>';
 
               echo '</li>';
               echo '</div>';
@@ -87,7 +103,9 @@ $data = json_decode( $response);
           // Close the list
           echo '</ul>';
           //echo "<br><br>";
-          //print_r($data);
+          echo "<div style='display:none'>";
+          print_r($data);
+          echo "</div>";
       }
 
       ?>

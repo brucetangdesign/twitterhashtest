@@ -12,7 +12,8 @@ $(document).ready(function(){
 
   function nextSlide(){
     $curTweet.addClass("hidden");
-    if(curTweetNum < $tweetList.children().length){
+    TweenMax.set($curTweet,{clearProps:"all"})
+    if(curTweetNum < $tweetList.children().length-1){
       curTweetNum += 1;
     }
     else{
