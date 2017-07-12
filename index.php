@@ -42,42 +42,55 @@ $response = $twitter->setGetfield($getfield)
 $data = json_decode( $response);
 
 ?>
-<html>
+<html lang="en-us">
   <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="scripts/jquery-3.2.1.min.js"></script>
+    <script src="scripts/TweenMax.min.js"></script>
   </head>
   <body>
-    <?php
-      if (count($data->statuses)) {
-        // Open the list
-        echo "<ul>";
-        // Cycle through the array
-        foreach ($data->statuses as $idx => $statuses) {
-            // Output an li
-            $text = $statuses->text;
-            //$url = '@(http)?(s)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
-            $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-            echo "<li>";
-            if(preg_match($reg_exUrl, $text, $url)) {
-                   // make the urls hyper links
-                  echo preg_replace($reg_exUrl, '<a href="'.$url[0].'" rel="nofollow">'.$url[0].'</a>', $text);
+    <section id="main">
+      <?php
+        if (count($data->statuses)) {
+          // Open the list
+          echo '<ul id="tweet-list">';
+          // Cycle through the array
+          foreach ($data->statuses as $idx => $statuses) {
+              // Output an li
+              $text = $statuses->text;
+              //$url = '@(http)?(s)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+              $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+              echo '<li class="hidden">';
+              $profile_pic = str_replace("_normal","_bigger",$statuses->user->profile_image_url);
+              echo '<div class="profile-pic"><img src="'.$profile_pic.'"></div>';
+              echo '<div class="profile-info">';
+              echo '<div class="timestamp">'.date("F jS, Y  g:ia",strtotime($statuses->created_at)).'</div>';
+              echo '<div class="tweet-text">';
+              if(preg_match($reg_exUrl, $text, $url)) {
+                     // make the urls hyper links
+                    echo preg_replace($reg_exUrl, '<a href="'.$url[0].'" rel="nofollow">'.$url[0].'</a>', $text);
 
-            } else {
-                   // if no urls in the text just return the text
-                   echo $text;
+              } else {
+                     // if no urls in the text just return the text
+                     echo $text;
 
-            }
-            echo "<br>";
-            echo "$statuses->created_at<br>";
-            echo "<a href='http://twitter.com/".$statuses->user->screen_name."'>".$statuses->user->screen_name."</a>";
+              }
+              echo '</div>';
+              echo '<a class="username" href="http://twitter.com/'.$statuses->user->screen_name.'">@'.$statuses->user->screen_name.'</a>';
 
-            echo "</li>";
-        }
-        // Close the list
-        echo "</ul>";
-        echo "<br><br>";
-        print_r($data);
-    }
+              echo '</li>';
+              echo '</div>';
+          }
+          // Close the list
+          echo '</ul>';
+          //echo "<br><br>";
+          //print_r($data);
+      }
 
-    ?>
+      ?>
+    </section>
   </body>
+  <script src="scripts/main.js"></script>
 </html>

@@ -1,0 +1,146 @@
+@mixin breakpoint($point) {
+  @if $point == xl {
+    @media (min-width: 1281px) { @content; }
+  }
+
+  @if $point == l {
+    @media (max-width: 1280px) { @content; }
+  }
+
+  @if $point == m {
+    @media (max-width: 1020px) { @content; }
+  }
+
+  @if $point == m-s {
+    @media (max-width: 900px) { @content; }
+  }
+
+  @if $point == s {
+    @media (max-width: 720px) { @content; }
+  }
+
+  @if $point == s-up {
+    @media (min-width: 721px) { @content; }
+  }
+
+  @if $point == xs {
+    @media (max-width: 480px) { @content; }
+  }
+
+  @if $point == xs-up {
+    @media (min-width: 481px) { @content; }
+  }
+}
+
+@mixin prefixr($property, $value, $prefixes: (webkit, moz, ms, o) ) {
+  @each $prefix in $prefixes {
+    -#{$prefix}-#{$property}: #{$value};
+  }
+  @if($property==display and $value==flex){
+    @each $prefix in $prefixes {
+      #{$property}: -#{$prefix}-#{$value};
+    }
+  }
+  #{$property}: #{$value};
+}
+
+@font-face {
+  font-family: 'Source Sans Pro';
+  src: url('fonts/SourceSansPro-Regular.WOFF') format('woff'), /* Pretty Modern Browsers */
+       url('fonts/SourceSansPro-Regular.ttf')  format('truetype'), /* Safari, Android, iOS */
+}
+
+html, body{
+  width: 100%;
+  height: 100%;
+  *{
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
+
+  background-color: #000000;
+  font-family: "Source Sans Pro";
+  color: #ffffff;
+}
+
+a{
+  color: #75d0ea;
+  text-decoration: none;
+}
+
+ul#tweet-list{
+  @include prefixr(display, flex);
+  @include prefixr(align-content, center);
+  @include prefixr(justify-content, center);
+  position: relative;
+  list-style-type: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+li{
+  @include prefixr(display, flex);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  max-width: 1200px;
+  /*
+  padding: 15px;
+  border-radius: 6px;
+  background-color: rgba(0,0,0,0.1);
+  */
+  @include breakpoint(xs){
+    @include prefixr(flex-wrap, wrap);
+    text-align: center;
+  }
+}
+
+.hidden{
+  display: none;
+}
+
+.tweet-text{
+  font-size: 2rem;
+  margin-bottom: 10px;
+
+  @include breakpoint(xs){
+    font-size: 1.3rem;
+  }
+}
+
+.profile-pic{
+  @include breakpoint(xs-up){
+    padding-top: 3px;
+    margin-right: 16px;
+  }
+
+  @include breakpoint(xs){
+    width: 100%;
+    margin-bottom: 16px;
+  }
+}
+
+.timestamp{
+  color: #c7c7c7;
+}
+
+.timestamp, .username{
+  font-size: 0.8rem;
+}
+
+#main{
+  height: 100%;
+  background-image: url("../images/bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  padding-left: 3rem;
+  padding-right: 3rem;
+
+  @include breakpoint(xs){
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
