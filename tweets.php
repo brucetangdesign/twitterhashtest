@@ -30,9 +30,8 @@ echo $twitter->buildOauth($url, $requestMethod)
 /** Perform a GET request and echo the response **/
 /** Note: Set the GET field BEFORE calling buildOauth(); **/
 $url = 'https://api.twitter.com/1.1/search/tweets.json';
-$getfield = '?q=#mountains&result_type=recent&tweet_mode=extended';
+$getfield = '?q=#JRFoundation&result_type=recent&tweet_mode=extended&exclude=retweets';
 $requestMethod = 'GET';
-
 
 $twitter = new TwitterAPIExchange($settings);
 $response = $twitter->setGetfield($getfield)
@@ -41,22 +40,21 @@ $response = $twitter->setGetfield($getfield)
 
 $data = json_decode( $response);
 
+//parse tweet for links
 function linkify_tweet($tweet) {
-
   //Convert urls to <a> links
   $tweet = preg_replace("/([\w]+\:\/\/[\w-?&;#~=\.\/\@]+[\w\/])/", "<a target=\"_blank\" href=\"$1\">$1</a>", $tweet);
-
   //Convert hashtags to twitter searches in <a> links
   $tweet = preg_replace("/#([A-Za-z0-9\/\.\_]*)/", "<a target=\"_blank\" href=\"http://twitter.com/search?q=$1\">#$1</a>", $tweet);
-
   //Convert attags to twitter profiles in <a> links
   $tweet = preg_replace("/@([A-Za-z0-9\/\.\_]*)/", "<a target=\"_blank\" href=\"http://www.twitter.com/$1\">@$1</a>", $tweet);
-
   return $tweet;
-
 }
 
+//set default timezone
+date_default_timezone_set('America/New_York');
 ?>
+
 <html lang="en-us">
   <head>
     <meta charset="UTF-8">
@@ -67,47 +65,60 @@ function linkify_tweet($tweet) {
   </head>
   <body>
     <section id="main">
+      <div class="overlay"></div>
+      <div class="logo"><a href="http://www.jackierobinson.org"><img src="images/logo-inverse.png" alt="logo"></a></div>
+      <ul id="tweet-list">
+        <?php
+          if (count($data->statuses)) {
+            // Cycle through the array
+            foreach ($data->statuses as $idx => $statuses) {
+                // Output an li
+                //tweet text
+                $text = $statuses->full_text;
+                $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+                echo '<li class="hidden">';
+                  //bg serves as a link to the tweet
+                  $tweet_link = "http://www.twitter.com/".$statuses->user->screen_name."/"."status/".$statuses->id_str;
+                  echo '<a class="tweet-bg" href="'.$tweet_link.'" target="_blank"><div></div></a>';
+
+                  //profile info
+                  echo '<div class="profile-info">';
+                    //pic
+                    $profile_pic = $statuses->user->profile_image_url;
+                    echo '<div class="profile-pic"><img src="'.$profile_pic.'"></div>';
+                    //name
+                    echo '<div class="user-name">';
+                      echo '<a class="full-name" href="http://twitter.com/'.$statuses->user->screen_name.'" target="_blank">'.$statuses->user->name.'</a><br>';
+                      echo '<a class="screen-name" href="http://twitter.com/'.$statuses->user->screen_name.'" target="_blank">@'.$statuses->user->screen_name.'</a>';
+                    echo '</div>';//end user-name
+                  echo '</div>';//end profile info
+                  //tweet info
+                  echo '<div class="tweet-info">';
+                    //tweet text
+                    echo '<div class="tweet-text">'.linkify_tweet($text).'</div>';
+
+                    //media
+                    if (isset($statuses->entities->media)) {
+                      $media_url = $statuses->entities->media[0]->media_url;
+                      echo '<div class="media-container">';
+                        echo '<img src="'.$media_url.'">';
+                      echo '</div>';
+                    }
+
+                    //time stamp
+                    echo '<div class="timestamp">'.date("F jS, Y  g:ia",strtotime($statuses->created_at)).'</div>';
+                  echo '</div>'; //end tweet-info
+                echo '</li>';
+              }
+            }
+        ?>
+      </ul>
+
       <?php
-        if (count($data->statuses)) {
-          // Open the list
-          echo '<ul id="tweet-list">';
-          // Cycle through the array
-          foreach ($data->statuses as $idx => $statuses) {
-              // Output an li
-              $text = $statuses->full_text;
-              //$url = '@(http)?(s)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
-              $reg_exUrl = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-              echo '<li class="hidden">';
-              $profile_pic = str_replace("_normal","_bigger",$statuses->user->profile_image_url);
-              echo '<div class="profile-pic"><img src="'.$profile_pic.'"></div>';
-              echo '<div class="profile-info">';
-              date_default_timezone_set('America/New_York');
-              echo '<div class="timestamp">'.date("F jS, Y  g:ia",strtotime($statuses->created_at)).'</div>';
-              echo '<div class="tweet-text">';
-              echo linkify_tweet($text);
-              /*if(preg_match($reg_exUrl, $text, $url)) {
-                     // make the urls hyper links
-                    echo preg_replace($reg_exUrl, '<a href="'.$url[0].'" rel="nofollow" target="_blank">'.$url[0].'</a>', $text);
-
-              } else {
-                     // if no urls in the text just return the text
-                     echo $text;
-
-              }*/
-              echo '</div>';
-              echo '<a class="username" href="http://twitter.com/'.$statuses->user->screen_name.'" target="_blank">@'.$statuses->user->screen_name.'</a>';
-
-              echo '</li>';
-              echo '</div>';
-          }
-          // Close the list
-          echo '</ul>';
-          //echo "<br><br>";
-          echo "<div style='display:none'>";
-          print_r($data);
-          echo "</div>";
-      }
-
+      //raw data - turn off when live
+      echo "<div style='display:none'>";
+      print_r($data);
+      echo "</div>";
       ?>
     </section>
   </body>
