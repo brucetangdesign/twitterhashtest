@@ -117,7 +117,7 @@ li {
   -o-justify-content: space-between;
   justify-content: space-between;
   width: 100%; }
-  @media (max-width: 480px) {
+  @media (max-width: 720px) {
     .header {
       flex-wrap: wrap;
       text-align: center;
@@ -128,8 +128,18 @@ li {
       justify-content: center; }
       .header .logo {
         flex-basis: 100%; }
-      .header .send-tweet-bt {
-        margin-top: 30px; } }
+      .header .buttons {
+        margin-top: 30px; }
+        .header .buttons a {
+          display: block;
+          width: 100%; }
+          .header .buttons a:first-child {
+            margin-bottom: 4px; }
+          .header .buttons a button {
+            width: 100%; }
+            .header .buttons a button#timeline {
+              margin-left: 0;
+              margin-right: 0; } }
 
 .slideshow {
   position: fixed;
@@ -283,6 +293,9 @@ button {
   cursor: pointer;
   cursor: hand;
   outline: none; }
+  button#timeline {
+    background-color: #94b933;
+    margin-right: 10px; }
 
 button:active, a:active {
   outline: 0;

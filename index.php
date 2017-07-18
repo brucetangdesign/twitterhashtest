@@ -82,7 +82,10 @@ date_default_timezone_set('America/New_York');
       <div class="overlay"></div>
       <div class="header">
         <a class="logo" href="http://www.jackierobinson.org"><img src="images/logo-inverse.png" alt="logo"></a>
-        <a class="send-tweet-bt" href="https://twitter.com/intent/tweet?hashtags=HappyBirthdayRachelRobinson"><button id="send-tweet">Send Tweet</button></a>
+        <div class="buttons">
+          <a class="timeline-bt" href="http://www.jackierobinson.org/timeline/#/timeline/rachel-timeline"><button id="timeline">Rachel's Timeline</button></a>
+          <a class="send-tweet-bt" href="https://twitter.com/intent/tweet?hashtags=HappyBirthdayRachelRobinson"><button id="send-tweet">Send Tweet</button></a>
+        </div>
       </div>
       <ul id="tweet-list">
         <?php

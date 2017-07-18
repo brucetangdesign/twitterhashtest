@@ -142,7 +142,7 @@ li{
   @include prefixr(justify-content, space-between);
   width: 100%;
 
-  @include breakpoint(xs){
+  @include breakpoint(s){
     flex-wrap: wrap;
     text-align: center;
     @include prefixr(justify-content, center);
@@ -151,8 +151,26 @@ li{
       flex-basis: 100%;
     }
 
-    .send-tweet-bt{
+    .buttons{
       margin-top: 30px;
+
+      a{
+        display: block;
+        width: 100%;
+
+        &:first-child{
+          margin-bottom: 4px;
+        }
+
+        button{
+          width: 100%;
+
+          &#timeline{
+            margin-left: 0;
+            margin-right: 0;
+          }
+        }
+      }
     }
   }
 }
@@ -308,6 +326,11 @@ button{
   cursor: pointer;
   cursor: hand;
   outline: none;
+
+  &#timeline{
+    background-color: #94b933;
+    margin-right: 10px;
+  }
 }
 
 button, a{
