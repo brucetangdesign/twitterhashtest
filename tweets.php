@@ -65,8 +65,25 @@ date_default_timezone_set('America/New_York');
   </head>
   <body>
     <section id="main">
+      <?php
+      $directory = "images/slideshow/";
+        $images = glob($directory . "*.jpg");
+        $index = 0;
+        $hidden_class = "";
+        foreach($images as $image)
+        {
+          if($index > 0){
+            $hidden_class = " hidden";
+          }
+          echo '<div class="slideshow slide-'.$index.$hidden_class.'" style="background-image: url('.$image.')"></div>';
+          $index ++;
+        }
+      ?>
       <div class="overlay"></div>
-      <div class="logo"><a href="http://www.jackierobinson.org"><img src="images/logo-inverse.png" alt="logo"></a></div>
+      <div class="header">
+        <a class="logo" href="http://www.jackierobinson.org"><img src="images/logo-inverse.png" alt="logo"></a>
+        <a class="send-tweet-bt" href="https://twitter.com/intent/tweet?hashtags=HappyBirthdayRachelRobinson"><button id="send-tweet">Send Tweet</button></a>
+      </div>
       <ul id="tweet-list">
         <?php
           if (count($data->statuses)) {
@@ -123,4 +140,5 @@ date_default_timezone_set('America/New_York');
     </section>
   </body>
   <script src="scripts/main.js"></script>
+  <script src="scripts/twitter-window.js"></script>
 </html>

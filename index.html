@@ -8,59 +8,16 @@
   </head>
   <body>
     <section id="main">
+      <div class="slideshow slide-0" style="background-image: url(images/slideshow/00.jpg)"></div>
       <div class="overlay"></div>
-      <div class="logo"><a href="http://www.jackierobinson.org"><img src="images/logo-inverse.png" alt="logo"></a></div>
+      <div class="header">
+        <a class="logo" href="http://www.jackierobinson.org"><img src="images/logo-inverse.png" alt="logo"></a>
+      </div>
       <div class="button-container">
         <a href="https://twitter.com/intent/tweet?hashtags=HappyBirthdayRachelRobinson"><button id="send-tweet">Send Tweet</button></a>
         <a href="tweets.php"><button id="view-tweets">View Tweets</button></a>
       </div>
     </section>
   </body>
-  <script>
-  (function() {
-  if (window.__twitterIntentHandler) return;
-
-  var intentRegex = /twitter\.com(\:\d{2,4})?\/intent\/(\w+)/,
-      windowOptions = 'scrollbars=yes,resizable=yes,toolbar=no,location=no',
-      width = 550,
-      height = 420,
-      winHeight = screen.height,
-      winWidth = screen.width;
-
-  function handleIntent(e) {
-    e = e || window.event;
-    var target = e.target || e.srcElement,
-        m, left, top;
-
-    while (target && target.nodeName.toLowerCase() !== 'a') {
-      target = target.parentNode;
-    }
-
-    if (target && target.nodeName.toLowerCase() === 'a' && target.href) {
-      m = target.href.match(intentRegex);
-      if (m) {
-        left = Math.round((winWidth / 2) - (width / 2));
-        top = 0;
-
-        if (winHeight > height) {
-          top = Math.round((winHeight / 2) - (height / 2));
-        }
-
-        window.open(target.href, 'intent', windowOptions + ',width=' + width +
-                                           ',height=' + height + ',left=' + left + ',top=' + top);
-        e.returnValue = false;
-        e.preventDefault && e.preventDefault();
-
-      }
-    }
-  }
-
-  if (document.addEventListener) {
-    document.addEventListener('click', handleIntent, false);
-  } else if (document.attachEvent) {
-    document.attachEvent('onclick', handleIntent);
-  }
-  window.__twitterIntentHandler = true;
-}());
-  </script>
+  <script src="scripts/twitter-window.js"></script>
 </html>
