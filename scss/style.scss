@@ -245,11 +245,11 @@ li{
 }
 
 .button-container{
-  width: 100%;
-  height: 100%;
   @include prefixr(display, flex);
   @include prefixr(align-items, center);
-  @include prefixr(justify-content, center);
+  @include prefixr(justify-content, left);
+  position: relative;
+  width: 100%;
 
   a{
     color: #ffffff;
