@@ -80,7 +80,9 @@ html, body{
   background-color: #000000;
   font-family: "Source Sans Pro";
   color: #ffffff;
+}
 
+body{
   @include breakpoint(s){
     overflow-x: hidden;
   }
@@ -251,10 +253,6 @@ li{
     width: 100%;
     text-align: center;
     overflow: hidden;
-
-    @include breakpoint(xs){
-      max-width: 320px;
-    }
 
     img{
       width: 100%;

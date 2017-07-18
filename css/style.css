@@ -19,9 +19,10 @@ html, body {
     padding: 0;
     margin: 0;
     border: none; }
-  @media (max-width: 720px) {
-    html, body {
-      overflow-x: hidden; } }
+
+@media (max-width: 720px) {
+  body {
+    overflow-x: hidden; } }
 
 a {
   color: #2aa5d1;
@@ -222,9 +223,6 @@ li {
   width: 100%;
   text-align: center;
   overflow: hidden; }
-  @media (max-width: 480px) {
-    .media-container {
-      max-width: 320px; } }
   .media-container img {
     width: 100%; }
 
