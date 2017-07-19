@@ -137,9 +137,9 @@ date_default_timezone_set('America/New_York');
 
       <?php
       //raw data - turn off when live
-      echo "<div style='display:none'>";
+      /*echo "<div style='display:none'>";
       print_r($data);
-      echo "</div>";
+      echo "</div>";*/
       ?>
     </section>
   </body>

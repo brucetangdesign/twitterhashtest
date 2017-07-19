@@ -3,7 +3,7 @@ $(document).ready(function(){
   rotateTweets();
   setMinHeight();
 
-  window.on("resize",function(){
+  $(window).on("resize",function(){
     setMinHeight();
   });
 
@@ -91,7 +91,7 @@ $(document).ready(function(){
     //slide tweet in
     function nextSlide(){
       $curTweet.addClass("hidden");
-      TweenMax.set($curTweet,{clearProps:"all"})
+      TweenMax.set($curTweet,{clearProps:"all"});
       if(curTweetNum < $tweetList.children().length-1){
         curTweetNum += 1;
       }
